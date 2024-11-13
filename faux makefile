@@ -1,0 +1,72 @@
+# Variables
+CC = gcc
+CFLAGS = -Wall
+
+# Dossiers des sources et des en-têtes pour chaque version
+V0_SRC = V0_sequentiel/src/
+V1_SRC = V1_monolithique/src/
+V2_SRC = V2_multiserveur/src/
+V3_SRC = V3_distante/src/
+
+V0_INC = V0_sequentiel/include/
+V1_INC = V1_monolithique/include/
+V2_INC = V2_multiserveur/include/
+V3_INC = V3_distante/include/
+
+# Cibles pour chaque version
+TARGET_V0 = serveur_sequentiel
+TARGET_V1 = serveur_monolithique
+TARGET_V2 = serveur_multiserveur
+TARGET_V3 = serveur_distante
+
+# Compilation des fichiers objets pour V0
+V0_OBJ = $(V0_SRC)main.o $(V0_SRC)execute_demande.o
+
+# Compilation des fichiers objets pour V1
+V1_OBJ = $(V1_SRC)main.o $(V1_SRC)execute_demande.o $(V1_SRC)gestion_processus.o
+
+# Compilation des fichiers objets pour V2
+V2_OBJ = $(V2_SRC)main.o $(V2_SRC)serveur_dedie.o
+
+# Compilation des fichiers objets pour V3
+V3_OBJ = $(V3_SRC)main.o $(V3_SRC)serveur_distant.o
+
+# Cibles par défaut : compile toutes les versions
+all: $(TARGET_V0) $(TARGET_V1) $(TARGET_V2) $(TARGET_V3)
+
+# Compilation de la version V0 (séquentielle)
+$(TARGET_V0): $(V0_OBJ)
+	$(CC) $(CFLAGS) -I$(V0_INC) -o $(TARGET_V0) $(V0_OBJ)
+
+# Compilation de la version V1 (monolithique)
+$(TARGET_V1): $(V1_OBJ)
+	$(CC) $(CFLAGS) -I$(V1_INC) -o $(TARGET_V1) $(V1_OBJ)
+
+# Compilation de la version V2 (multiserveur)
+$(TARGET_V2): $(V2_OBJ)
+	$(CC) $(CFLAGS) -I$(V2_INC) -o $(TARGET_V2) $(V2_OBJ)
+
+# Compilation de la version V3 (distante)
+$(TARGET_V3): $(V3_OBJ)
+	$(CC) $(CFLAGS) -I$(V3_INC) -o $(TARGET_V3) $(V3_OBJ)
+
+# Compilation des fichiers .c en .o pour V0
+$(V0_SRC)%.o: $(V0_SRC)%.c
+	$(CC) $(CFLAGS) -I$(V0_INC) -c $< -o $@
+
+# Compilation des fichiers .c en .o pour V1
+$(V1_SRC)%.o: $(V1_SRC)%.c
+	$(CC) $(CFLAGS) -I$(V1_INC) -c $< -o $@
+
+# Compilation des fichiers .c en .o pour V2
+$(V2_SRC)%.o: $(V2_SRC)%.c
+	$(CC) $(CFLAGS) -I$(V2_INC) -c $< -o $@
+
+# Compilation des fichiers .c en .o pour V3
+$(V3_SRC)%.o: $(V3_SRC)%.c
+	$(CC) $(CFLAGS) -I$(V3_INC) -c $< -o $@
+
+# Nettoyage des fichiers compilés
+clean:
+	rm -f $(V0_OBJ) $(V1_OBJ) $(V2_OBJ) $(V3_OBJ) $(TARGET_V0) $(TARGET_V1) $(TARGET_V2) $(TARGET_V3)
+
