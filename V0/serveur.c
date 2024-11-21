@@ -1,10 +1,7 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h> 
 #include "serveur.h"
 
-// Opération 1 : Tester
+Jeu jeux[MAX_JEUX];
+
 int operation_tester(DemandeOperation *demande) {
     for (int i = 0; i < MAX_JEUX; i++) {
         if (strcmp(jeux[i].NomJeu, demande->NomJeu) == 0) {
@@ -14,7 +11,6 @@ int operation_tester(DemandeOperation *demande) {
     return -1; // Échec
 }
 
-// Opération 2 : Afficher la liste des jeux
 int operation_afficher(DemandeOperation *demande) {
     int nombre_de_jeux = 0;
     for (int i = 0; i < MAX_JEUX; i++) {
@@ -23,10 +19,10 @@ int operation_afficher(DemandeOperation *demande) {
             nombre_de_jeux++;
         }
     }
+    sleep(1);
     return nombre_de_jeux; // Nombre de jeux téléchargés
 }
 
-// Opération 3 : Ajouter
 int operation_ajouter(DemandeOperation *demande) {
     for (int i = 0; i < MAX_JEUX; i++) {
         if (jeux[i].NomJeu[0] == '\0') {
@@ -35,25 +31,25 @@ int operation_ajouter(DemandeOperation *demande) {
             for (int j = 0; j < 1000; j++) {
                 jeux[i].Code[j] = '*';
             }
-            return 1000; // Taille du jeu téléchargé en Kio
+            sleep(10);
+            return 1000; // Taille de jeu (c'est juste un nombre au pif)
         }
     }
     return -1; // Échec
 }
 
-// Opération 4 : Supprimer
 int operation_supprimer(DemandeOperation *demande) {
     for (int i = 0; i < MAX_JEUX; i++) {
         if (strcmp(jeux[i].NomJeu, demande->NomJeu) == 0) {
             free(jeux[i].Code);
             jeux[i].NomJeu[0] = '\0';
+            sleep(2);
             return 0; // Succès
         }
     }
     return -1; // Échec
 }
 
-// Opération 5 : Simuler
 void operation_simuler(DemandeOperation *demande) {
     // Pas de retour nécessaire
     for (int i = 0; i < MAX_JEUX; i++) {
@@ -62,7 +58,7 @@ void operation_simuler(DemandeOperation *demande) {
             for (int j = 0; j < 1000; j++) {
                 code[j] = '*';
             }
-            int gagnant = rand() % 2;
+            int gagnant = rand() % 2; sleep(20);
             if (gagnant == 0) {
                 printf("Joueur 1 gagne !\n");
             } else {
@@ -74,7 +70,6 @@ void operation_simuler(DemandeOperation *demande) {
     }
 }
 
-// Opération 6 : Lancer
 void operation_lancer(DemandeOperation *demande) {
     // Pas de retour nécessaire
     for (int i = 0; i < MAX_JEUX; i++) {
@@ -84,7 +79,7 @@ void operation_lancer(DemandeOperation *demande) {
                 code[j] = '*';
             }
             printf("Appuyez sur une touche pour jouer...\n");
-            getchar();
+            getchar(); // attend le Enter du standardInput
             int gagnant = rand() % 2;
             if (gagnant == 0) {
                 printf("Serveur gagne !\n");
@@ -97,7 +92,6 @@ void operation_lancer(DemandeOperation *demande) {
     }
 }
 
-// Fonction pour exécuter une demande d'opération
 int execute_demande(DemandeOperation OP) {
     switch (OP.CodeOp) {
         case 1:
@@ -119,5 +113,3 @@ int execute_demande(DemandeOperation OP) {
             return -1;
     }
 }
-
-

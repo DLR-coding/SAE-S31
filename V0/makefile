@@ -1,20 +1,17 @@
-# Variables
 CC = gcc
-CFLAGS = -Wall -Iinclude
-OBJ = src/main.o src/execute_demande.o
-TARGET = serveur_sequentiel
+CFLAGS = -Wall -Wextra 
 
-# Compilation par défaut
-all: $(TARGET)
+SRCS = main.c serveur.c
+OBJS = $(SRCS:.c=.o)
 
-# Compilation de l'exécutable
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
+NAME = V0
 
-# Compilation des fichiers .c en .o
-src/%.o: src/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+all: $(NAME)
 
-# Nettoyage des fichiers compilés
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -f $(OBJS) $(NAME)
+
+
