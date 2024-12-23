@@ -1,5 +1,5 @@
-#ifndef SERVEUR_H
-#define SERVEUR_H
+#pragma once
+
 
 #include <stdio.h>
 #include <string.h>
@@ -28,4 +28,3 @@ void operation_simuler(DemandeOperation *demande);
 void operation_lancer(DemandeOperation *demande);
 int execute_demande(DemandeOperation OP);
 
-#endif // SERVEUR_H
