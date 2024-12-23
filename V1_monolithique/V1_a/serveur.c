@@ -133,6 +133,7 @@ int execute_demande(DemandeOperation OP) {
     return 0;
 }
 
+// pour savoir quand tous les calculs non bloquants ont pris fin , on pote pour la 1er option.
 void execute_demande_parallel(DemandeOperation OP, pid_t *PIDf, int *nbfils_non_bloquants) {
     pid_t pid = fork();
     if (pid == 0) {
