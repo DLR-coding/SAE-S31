@@ -26,12 +26,11 @@ typedef struct {
 } DemandeOperation;
 
 int operation_tester(DemandeOperation *demande);
-int operation_afficher(DemandeOperation *demande);
-int operation_ajouter(DemandeOperation *demande, int pipe_fd[2]);
+int operation_afficher();
+int operation_ajouter(DemandeOperation *demande, int pipefd);
 int operation_supprimer(DemandeOperation *demande);
-void operation_simuler(DemandeOperation *demande, int pipe_fd[2]);
+void operation_simuler(DemandeOperation *demande, int pipefd);
 void operation_lancer(DemandeOperation *demande);
 int execute_demande(DemandeOperation OP);
 void execute_demande_parallel(DemandeOperation OP, pid_t *PIDf, int *nbfils_non_bloquants);
-void wait_for_children(pid_t *PIDf, int nbfils_non_bloquants);
-
+void wait_for_non_blocking_operations(pid_t *PIDf, int nbfils_non_bloquants);
