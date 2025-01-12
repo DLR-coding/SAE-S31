@@ -26,7 +26,7 @@ int main() {
     printf("EXECUTING BLOCKING OPERATION: List all games (PID %d)\n", getpid());
     execute_demande_parallel(DeO5, PIDf, &nbfils_non_bloquants); // PID 5
 
-    printf("--------------------------------------------------------------------\n");
+    printf("---------------------------------------------------------d-----------\n");
     
     // Exécution des opérations non bloquantes
     printf("EXECUTING BLOCKING OPERATION: Simulate game 'Echec' (PID %d)\n", getpid());

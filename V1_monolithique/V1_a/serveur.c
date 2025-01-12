@@ -96,27 +96,23 @@ void operation_lancer(DemandeOperation *demande) {
 
 void execute_demande_parallel(DemandeOperation OP, pid_t *PIDf, int *nbfils_non_bloquants) {
     pid_t pid;
-    int pipefd[2];
+    
 
     if (OP.CodeOp == 1 || OP.CodeOp == 2) {
         // For Tester and Lister, we can delegate to child process
-        pipe(pipefd);
         pid = fork();
         if (pid == 0) {
             // Child process
             printf("Child process (PID %d) executing request with CodeOp: %d\n", getpid(), OP.CodeOp);
-            close(pipefd[PIPE_READ]); // Close read end in child
             if (OP.CodeOp == 1) {
                 operation_tester(&OP);
             } else if (OP.CodeOp == 2) {
                 operation_afficher();
             }
-            close(pipefd[PIPE_WRITE]); // Close write end in child
             exit(0);
         } else {
             // Parent process
             printf("Parent process (PID %d) forked child process (PID %d)\n", getpid(), pid);
-            close(pipefd[PIPE_WRITE]); // Close write end in parent
             if (OP.flag == 1) {
                 printf("BLOQUANT , parent (PID %d) attend fin de l'enfant (PID %d)\n", getpid(), pid);
                 waitpid(pid, NULL, 0);
@@ -129,6 +125,7 @@ void execute_demande_parallel(DemandeOperation OP, pid_t *PIDf, int *nbfils_non_
         }
     } else if (OP.CodeOp == 3) {
         // For Ajouter, we need to simulate loading and transfer via pipe
+        int pipefd[2];
         pipe(pipefd);
         pid = fork();
         if (pid == 0) {
