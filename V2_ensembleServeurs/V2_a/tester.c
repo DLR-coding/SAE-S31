@@ -1,13 +1,23 @@
-#include "serveur.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-int operation_tester(Jeu *jeux, DemandeOperation *demande) {
-    printf("Testing if game '%s' exists...\n", demande->NomJeu);
-    for (int i = 0; i < MAX_JEUX; i++) {
-        if (strcmp(jeux[i].NomJeu, demande->NomJeu) == 0) {
-            printf("Game '%s' found.\n", demande->NomJeu);
-            return 0; // Jeu trouvé
-        }
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <game_name>\n", argv[0]);
+        return 1;
     }
-    printf("Game '%s' not found.\n", demande->NomJeu);
-    return -1; // Jeu non trouvé
+
+    printf("Nous sommes dans tester.c , on admet qu'on a une Database de jeu partagée ayant 'Echec' dedans\n");
+    char *game_name = argv[1];
+    printf("Checking if the game '%s' exists in the database...\n", game_name);
+
+    // Simuler la vérification (ici on suppose que "Echec" existe dans la base)
+    if (strcmp(game_name, "Echec") == 0) {
+        printf("Game '%s' found!\n", game_name);
+        return 0;  // Code de succès
+    } else {
+        printf("Game '%s' not found.\n", game_name);
+        return 1;  // Code d'échec
+    }
 }

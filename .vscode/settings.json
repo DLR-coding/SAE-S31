@@ -1,6 +1,8 @@
 {
   "files.associations": {
     "*.embeddedhtml": "html",
-    "serveur.h": "c"
+    ".fantomasignore": "ignore",
+    "serveur.h": "c",
+    "wait.h": "c"
   }
 }
